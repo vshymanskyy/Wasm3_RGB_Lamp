@@ -1,4 +1,4 @@
-# WebAssembly RGB lamp demo
+# WebAssembly RGB lamp animation demo
 
 - MCU: `Nordic nRF51822 QFAA` (**16 Kb** RAM, **256 Kb** Flash)
 - Wasm Runtime: [`Wasm3`](https://github.com/wasm3/wasm3)
