@@ -5,7 +5,7 @@
 - Framework: `Arduino`
 - Build System: `PlatformIO`
 
-`./assemblyscript` contains the wasm app, which [implements an animation](/blob/master/assemblyscript/app.ts).
+`./assemblyscript` contains the wasm app, which [implements an animation](/assemblyscript/app.ts).
 
 `./wasm_vm` contains the interpreter/VM.
 
