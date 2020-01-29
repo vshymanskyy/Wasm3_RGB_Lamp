@@ -1,18 +1,22 @@
 # WebAssembly RGB lamp demo
 
+- MCU: `Nordic nRF51822 QFAA` (**16 Kb** RAM, **256 Kb** Flash)
 - Wasm Runtime: [`Wasm3`](https://github.com/wasm3/wasm3)
-- MCU: `Nordic nRF51822`
 - Framework: `Arduino`
 - Build System: `PlatformIO`
 
-`./assemblyscript` contains the wasm app, which [implements an animation](/assemblyscript/app.ts).
+![demo](/extra/photos.jpg)
+
+`./assemblyscript` contains the wasm app. This [implements an animation](/assemblyscript/app.ts).
 
 `./wasm_vm` contains the interpreter/VM.
 
-To build and run the example:
-```sh
-make run
-```
+## Build instructions
+
+1. Install `PlatformIO`
+2. In `assemblyscript` directory, run `npm install`
+3. To build the demo: `make`
+4. To upload and run the demo: `make run`
 
 ## Work In Progress
 
