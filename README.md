@@ -1,4 +1,4 @@
-## WebAssembly RGB lamp demo
+# WebAssembly RGB lamp demo
 
 - Wasm Runtime: `Wasm3`
 - MCU: `Nordic nRF51822`
@@ -13,3 +13,12 @@ To build and run the example:
 ```sh
 make run
 ```
+
+## Work In Progress
+
+- [x] Run `AssemblyScript` on `nRF51`
+- [x] Simple `Color Wheel` animation working
+- [x] Transfer pixels in batches (optimize speed)
+- [ ] Try running `Bluetooth LE` stack
+- [ ] Upload `wasm` binary to device using BLE (store to RAM)
+- [ ] Store `wasm` binary to flash
