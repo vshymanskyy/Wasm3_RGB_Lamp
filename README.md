@@ -1,11 +1,11 @@
 # WebAssembly RGB lamp demo
 
-- Wasm Runtime: `Wasm3`
+- Wasm Runtime: [`Wasm3`](https://github.com/wasm3/wasm3)
 - MCU: `Nordic nRF51822`
 - Framework: `Arduino`
 - Build System: `PlatformIO`
 
-`./assemblyscript` contains the wasm app, which implements an animation.
+`./assemblyscript` contains the wasm app, which [implements an animation](/blob/master/assemblyscript/app.ts).
 
 `./wasm_vm` contains the interpreter/VM.
 
