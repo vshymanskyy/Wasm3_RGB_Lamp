@@ -14,7 +14,7 @@ Currently reaching **23.5 FPS** with **144 LEDs**, **110 FPS** with **30 LEDs**.
 - [x] Run `AssemblyScript` on `nRF51`
 - [x] Simple `Color Wheel` animation working
 - [x] Transfer pixels in batches (optimize speed)
-- [x] Add support for Micro:bit, ESP32, ESP8266
+- [x] Add support for **Micro:bit**, **ESP32**, **ESP8266**
 - [ ] Try running `Bluetooth LE` stack
 - [ ] Upload `wasm` binary to device using BLE (store to RAM)
 - [ ] Store `wasm` binary to flash
