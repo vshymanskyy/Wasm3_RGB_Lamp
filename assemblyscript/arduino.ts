@@ -28,6 +28,12 @@ export function rgbWrite(colors: u32[]): void {
   _rgbWrite(changetype<usize>(colors.buffer), colors.length);
 }
 
+@global
+@inline
+export function Color(r: u32, g: u32, b: u32, w: u32 = 0): u32 {
+  return (w << 24) | (r << 16) | (g <<  8) | b;
+}
+
 /*
 const _gammaTable: u8[] = [
   0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
@@ -58,18 +64,6 @@ export function Gamma(x: u32): u32 {
   let g = gamma8(u8((x >>  8) & 0xFF));
   let r = gamma8(u8((x >> 16) & 0xFF));
   let w = gamma8(u8((x >> 24) & 0xFF));
-  return ColorRGBW(r,g,b,w);
-}
-
-@global
-@inline
-export function Color(r: u8, g: u8, b: u8): u32 {
-  return (u32(r) << 16) | (u32(g) <<  8) | b;
-}
-
-@global
-@inline
-export function ColorRGBW(r: u8, g: u8, b: u8, w: u8): u32 {
-  return (u32(w) << 24) | (u32(r) << 16) | (u32(g) <<  8) | b;
+  return Color(r,g,b,w);
 }
 */

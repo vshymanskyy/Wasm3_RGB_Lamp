@@ -27,7 +27,7 @@ function clamp(x: i32): i32 {
 
 // hue: [0, 255]
 @inline
-function hue2Rgb(hue: i32): u32 {
+function hue2rgb(hue: i32): u32 {
   hue *= 6 << 8;
   let r = -(1 << 16) + abs(hue - (3 << 16));
   let g =  (2 << 16) - abs(hue - (2 << 16));
@@ -35,7 +35,7 @@ function hue2Rgb(hue: i32): u32 {
   r = clamp(r >> 8);
   g = clamp(g >> 8);
   b = clamp(b >> 8);
-  return r << 16 | g << 8 | b;
+  return Color(r, g, b);
 }
 
 function setup(): void {
@@ -44,13 +44,16 @@ function setup(): void {
 }
 
 @inline
-function run(tick: u32): void {
-  for (let i: u32 = 0; i < ledCount; i++) {
-    let value = dev.rgbGamma32(hue2Rgb((i * 10 + tick) & 255));
-    unchecked(leds[i] = value);
+function run(): void {
+  for (let h = 0; h < 256; h += 8) {
+    for (let i: u32 = 0; i < ledCount; i++) {
+      let value = dev.rgbGamma32(hue2rgb((i * 2 + h) % 255));
+      unchecked(leds[i] = value);
+    }
+    dev.rgbWrite(leds);
+    dev.rgbShow();
   }
-  dev.rgbWrite(leds);
-  dev.rgbShow();
+  dev.println('.');
 }
 
 /*
@@ -58,8 +61,7 @@ function run(tick: u32): void {
  */
 export function _start(): void {
   setup();
-  let tick: u32 = 0;
   while (1) {
-    run(tick++);
+    run();
   }
 }
