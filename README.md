@@ -1,4 +1,4 @@
-# WebAssembly RGB lamp animation demo
+# [WIP] WebAssembly RGB lamp animation demo
 
 Currently reaching **23.5 FPS** with **144 LEDs**, **110 FPS** with **30 LEDs**.
 
@@ -9,7 +9,7 @@ Currently reaching **23.5 FPS** with **144 LEDs**, **110 FPS** with **30 LEDs**.
 
 ![demo](/extra/photos.jpg)
 
-## Work In Progress
+## Status
 
 - [x] Run `AssemblyScript` on `nRF51`
 - [x] Simple `Color Wheel` animation working
