@@ -20,12 +20,14 @@ const leds: u32[] = [
   0,0,0,0                 // 144 max
 ];
 
+// @ts-ignore: decorator
 @inline
 function clamp(x: i32): i32 {
   return min(max(x, 0), 255);
 }
 
 // hue: [0, 255]
+// @ts-ignore: decorator
 @inline
 function hue2rgb(hue: i32): u32 {
   hue *= 6 << 8;
@@ -43,6 +45,7 @@ function setup(): void {
   dev.rgbSetBrightness(24);
 }
 
+// @ts-ignore: decorator
 @inline
 function run(): void {
   for (let h = 0; h < 256; h += 2) {
