@@ -1,3 +1,4 @@
+/// <reference path="node_modules/assemblyscript/std/assembly/index.d.ts" />
 
 export declare function millis(): u32;
 export declare function delay(ms: u32): void;
