@@ -1,6 +1,6 @@
 import * as dev from "./arduino";
 
-const led_count:i32 = min(144, dev.rgbGetCount());
+const ledCount: u32 = min(144, dev.rgbGetCount());
 
 const leds: u32[] = [
   0,0,0,0,0,0,0,0,0,0,
@@ -20,19 +20,22 @@ const leds: u32[] = [
   0,0,0,0                 // 144 max
 ];
 
-function clamp1(x: f32) : f32 {
-  return min(max(x, 0.0), 1.0) - 1.0;
+@inline
+function clamp(x: i32): i32 {
+  return min(max(x, 0), 255);
 }
 
-// H [0, 360]; S [0, 100]; V [0, 100]
-function HSV(H: i32, S: u8, V: u8) : u32 {
-  let h = f32(H) / 60;
-  let v = f32(V) * 255 / 100;
-  let t = f32(S) * v / 100;
-  let r = clamp1(-1 + abs(h - 3)) * t + v;
-  let g = clamp1( 2 - abs(h - 2)) * t + v;
-  let b = clamp1( 2 - abs(h - 4)) * t + v;
-  return Color(u8(r), u8(g), u8(b));
+// hue: [0, 255]
+@inline
+function hue2Rgb(hue: i32): u32 {
+  hue *= 6 << 8;
+  let r = -(1 << 16) + abs(hue - (3 << 16));
+  let g =  (2 << 16) - abs(hue - (2 << 16));
+  let b =  (2 << 16) - abs(hue - (4 << 16));
+  r = clamp(r >> 8);
+  g = clamp(g >> 8);
+  b = clamp(b >> 8);
+  return r << 16 | g << 8 | b;
 }
 
 function setup(): void {
@@ -41,16 +44,13 @@ function setup(): void {
 }
 
 @inline
-function run(): void {
-  for (let h = 0; h < 360; h += 1) {
-    for (let i = 0; i < led_count; i++) {
-      let value = dev.rgbGamma32(HSV(((i*10)+h)%360, 100, 100));
-      unchecked(leds[i] = value);
-    }
-    dev.rgbWrite(leds);
-    dev.rgbShow();
+function run(tick: u32): void {
+  for (let i: u32 = 0; i < ledCount; i++) {
+    let value = dev.rgbGamma32(hue2Rgb((i * 10 + tick) & 255));
+    unchecked(leds[i] = value);
   }
-  dev.println('.');
+  dev.rgbWrite(leds);
+  dev.rgbShow();
 }
 
 /*
@@ -58,7 +58,8 @@ function run(): void {
  */
 export function _start(): void {
   setup();
+  let tick: u32 = 0;
   while (1) {
-    run();
+    run(tick++);
   }
 }
