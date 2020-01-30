@@ -59,7 +59,6 @@ export function Gamma(x: u32): u32 {
   let w = gamma8(u8((x >> 24) & 0xFF));
   return ColorRGBW(r,g,b,w);
 }
-*/
 
 @global
 @inline
@@ -72,3 +71,4 @@ export function Color(r: u8, g: u8, b: u8): u32 {
 export function ColorRGBW(r: u8, g: u8, b: u8, w: u8): u32 {
   return (u32(w) << 24) | (u32(r) << 16) | (u32(g) <<  8) | b;
 }
+*/
