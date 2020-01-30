@@ -21,7 +21,6 @@
 // For (most) devices that cannot allocate a 64KiB wasm page
 #define WASM_MEMORY_LIMIT   2048
 
-#define STRIP_PIN           3
 #define STRIP_COUNT         30
 
 Adafruit_NeoPixel strip(STRIP_COUNT, STRIP_PIN, NEO_GRB + NEO_KHZ800);
