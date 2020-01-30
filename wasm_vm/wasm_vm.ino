@@ -77,6 +77,7 @@ m3ApiRawFunction(m3_arduino_rgbClear) {
 
 m3ApiRawFunction(m3_arduino_rgbShow) {
     strip.show();
+    delay(0);
     m3ApiSuccess();
 }
 
