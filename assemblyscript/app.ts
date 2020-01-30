@@ -47,7 +47,7 @@ function setup(): void {
 function run(): void {
   for (let h = 0; h < 256; h += 2) {
     for (let i: u32 = 0; i < ledCount; i++) {
-      let value = dev.rgbGamma32(hue2rgb((i * 10 + h) % 255));
+      let value = dev.rgbGamma32(hue2rgb((i * 10 + h) % 256));
       unchecked(leds[i] = value);
     }
     dev.rgbWrite(leds);
