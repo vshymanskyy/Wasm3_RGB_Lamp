@@ -39,7 +39,7 @@ function hue2rgb(hue: i32): u32 {
 }
 
 function setup(): void {
-  dev.println('AssemblyScript is running 😎')
+  dev.println('AssemblyScript is running 🚀');
   dev.rgbSetBrightness(24);
 }
 
