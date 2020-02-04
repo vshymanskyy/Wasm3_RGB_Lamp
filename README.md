@@ -1,7 +1,5 @@
 # [WIP] WebAssembly RGB lamp animation demo
 
-Currently reaching **23.5 FPS** with **144 LEDs**, **110 FPS** with **30 LEDs**.
-
 - MCU: `Nordic nRF51822 QFAA` (**16 MHz** Cortex-M0, **16 Kb** RAM, **256 Kb** Flash)
 - Wasm Runtime: [`Wasm3`](https://github.com/wasm3/wasm3)
 - Framework: `Arduino`
@@ -9,8 +7,8 @@ Currently reaching **23.5 FPS** with **144 LEDs**, **110 FPS** with **30 LEDs**.
 
 ## Demo
 
-- Video with [30 LEDs](https://twitter.com/wasm3_engine/status/1222864284218163200)
-- Video with [144 LEDs](https://twitter.com/wasm3_engine/status/1222872374363770882)
+- Video with [30 LEDs](https://twitter.com/wasm3_engine/status/1222864284218163200), lamp produces **110 FPS**
+- Video with [144 LEDs](https://twitter.com/wasm3_engine/status/1222872374363770882), lamp produces **23.5 FPS**
 
 ![demo](/extra/photos.jpg)
 
