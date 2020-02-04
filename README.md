@@ -7,6 +7,11 @@ Currently reaching **23.5 FPS** with **144 LEDs**, **110 FPS** with **30 LEDs**.
 - Framework: `Arduino`
 - Build System: `PlatformIO`
 
+## Demo
+
+- Video with [30 LEDs](https://twitter.com/wasm3_engine/status/1222864284218163200)
+- Video with [144 LEDs](https://twitter.com/wasm3_engine/status/1222872374363770882)
+
 ![demo](/extra/photos.jpg)
 
 ## Status
