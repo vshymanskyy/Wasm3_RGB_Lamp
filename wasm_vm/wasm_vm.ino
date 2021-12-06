@@ -5,8 +5,6 @@
  */
 
 #include <wasm3.h>
-
-#include <m3_api_defs.h>
 #include <m3_env.h>
 
 #include <Adafruit_NeoPixel.h>
@@ -21,9 +19,12 @@
 // For (most) devices that cannot allocate a 64KiB wasm page
 #define WASM_MEMORY_LIMIT   2048
 
-#define STRIP_COUNT         30
+#define STRIP_COUNT         16
 
 Adafruit_NeoPixel strip(STRIP_COUNT, STRIP_PIN, NEO_GRB + NEO_KHZ800);
+
+int buttonPins[] = { 5, 11 };
+int buttonStates[] = { 0, 0 };
 
 /*
  * WebAssembly app
@@ -72,21 +73,19 @@ m3ApiRawFunction(m3_arduino_rgbGetCount) {
 
 m3ApiRawFunction(m3_arduino_rgbClear) {
     strip.clear();
-    m3ApiSuccess();
-}
-
-m3ApiRawFunction(m3_arduino_rgbShow) {
     strip.show();
     delay(0);
     m3ApiSuccess();
 }
 
-m3ApiRawFunction(m3_arduino_rgbWrite) {
+m3ApiRawFunction(m3_arduino_rgbShow) {
     m3ApiGetArgMem  (const uint32_t *, colors)
     m3ApiGetArg     (uint32_t,         len)
-    for (int i=0; i<len; i++) {
+    for (uint32_t i=0; i<len; i++) {
         strip.setPixelColor(i, colors[i]);
     }
+    strip.show();
+    delay(0);
     m3ApiSuccess();
 }
 
@@ -102,6 +101,15 @@ m3ApiRawFunction(m3_arduino_rgbSetBrightness) {
     m3ApiSuccess();
 }
 
+m3ApiRawFunction(m3_arduino_btnPressed) {
+    m3ApiReturnType (uint32_t)
+    m3ApiGetArg     (uint32_t,         btn)
+    int state = !digitalRead(buttonPins[btn]);
+    bool res = (state != buttonStates[btn]) && state;
+    buttonStates[btn] = state;
+    m3ApiReturn(res);
+}
+
 M3Result  LinkArduino  (IM3Runtime runtime)
 {
     IM3Module module = runtime->modules;
@@ -112,11 +120,12 @@ M3Result  LinkArduino  (IM3Runtime runtime)
     m3_LinkRawFunction (module, arduino, "printUTF16",       "v(*i)",  &m3_arduino_printUTF16);
 
     m3_LinkRawFunction (module, arduino, "rgbGetCount",       "i()",   &m3_arduino_rgbGetCount);
-    m3_LinkRawFunction (module, arduino, "rgbShow",           "v()",   &m3_arduino_rgbShow);
     m3_LinkRawFunction (module, arduino, "rgbClear",          "v()",   &m3_arduino_rgbClear);
-    m3_LinkRawFunction (module, arduino, "rgbWrite",          "v(*i)", &m3_arduino_rgbWrite);
+    m3_LinkRawFunction (module, arduino, "rgbShow",           "v(*i)", &m3_arduino_rgbShow);
     m3_LinkRawFunction (module, arduino, "rgbSetBrightness",  "v(i)",  &m3_arduino_rgbSetBrightness);
     m3_LinkRawFunction (module, arduino, "rgbGamma32",        "i(i)",  &m3_arduino_rgbGamma32);
+
+    m3_LinkRawFunction (module, arduino, "btnPressed",        "i(i)",  &m3_arduino_btnPressed);
 
     return m3Err_none;
 }
@@ -142,7 +151,7 @@ void wasm_task(void*)
 #endif
 
     IM3Module module;
-    result = m3_ParseModule (env, &module, app_wasm, app_wasm_len-1);
+    result = m3_ParseModule (env, &module, app_wasm, app_wasm_len);
     if (result) FATAL("ParseModule", result);
 
     result = m3_LoadModule (runtime, module);
@@ -156,10 +165,9 @@ void wasm_task(void*)
 
     if (result) FATAL("FindFunction", result);
 
-    Serial.println("Running WebAssembly...");
+    Serial.println();
 
-    const char* i_argv[1] = { NULL };
-    result = m3_CallWithArgs (f, 0, i_argv);
+    result = m3_CallV (f);
 
     // Should not arrive here
 
@@ -177,11 +185,16 @@ void wasm_task(void*)
 void setup()
 {
     Serial.begin(115200);
+    delay(1000);
+
+    Serial.println("\nWasm3 v" M3_VERSION " on " M3_ARCH ", build " __DATE__ " " __TIME__);
+
+    pinMode(buttonPins[0], INPUT);
+    pinMode(buttonPins[1], INPUT);
 
     strip.begin();
+    strip.clear();
     strip.show();
-
-    Serial.println("\nWasm3 v" M3_VERSION ", build " __DATE__ " " __TIME__);
 
     wasm_task(NULL);
 }
